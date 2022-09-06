@@ -86,7 +86,7 @@ export default function AnimeDetail(props: AnimeDetailProps) {
                 </div>
 
                 <div className="content md:flex w-full">
-                    <div className="img md:w-1/3 sm:w-full md:mr-4 relative">
+                    <div className="img md:w-1/3 md:mr-4 sm:w-full sm:h-80 shadow-md rounded-xl relative">
                         <Image layout='fill' objectFit="cover" className="rounded-2xl shadow-md sm:w-full" src={data.images.jpg.image_url?.replace(IMAGE_DOMAIN, "")} alt="" />
                     </div>
                     <div className="md:w-2/3 sm:w-full flex flex-col justify-between sm:mt-2">

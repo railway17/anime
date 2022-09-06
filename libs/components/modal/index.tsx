@@ -74,14 +74,14 @@ export default function Modal(props: ModalProps) {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-transparent text-left transition-all sm:my-8 sm:w-full sm:max-w-lg md:w-3/5">
                 <div>
                   <XMarkIcon 
-                    className="h-6 w-6 text-grey-300 absolute top-0 right-0 cursor-pointer stroke-1 hover:stroke-2 bg-white rounded-xl" 
+                    className="h-6 w-6 text-grey-300 absolute top-0 right-0 cursor-pointer stroke-1 hover:stroke-2 bg-white rounded-xl sm:right-4" 
                     aria-hidden="true" 
                     onClick={props.onClose}
                   />
                 </div>
                 <div className="bg-transparent px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                  <div className="sm:flex sm:w-full sm:items-start">
+                    <div className="mt-3 text-center sm:mt-0 sm:text-left sm:w-full">
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                         <SearchBar onSearch={onSearch}/>
                       </Dialog.Title>
