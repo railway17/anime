@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,  
@@ -9,16 +13,6 @@ const nextConfig = {
     loader: 'imgix',
     path: 'https://cdn.myanimelist.net/',
   },
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && !isServer) {
-      Object.assign(config.resolve.alias, {
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-      })
-    }
-    return config
-  },
 }
 
-module.exports = nextConfig
+module.exports = withBundleAnalyzer(nextConfig)
