@@ -79,6 +79,7 @@ export const AnimeCardWrapper = styled.div`
 export const AnimeCard = styled.div`
   width: 100%;
   height: 100%;
+  margin: auto;
   box-shadow: 2px 2px 2px 3px lightgray;
   border-radius: 16px;
   transition: box-shadow 0.3s ease-in-out;        
@@ -131,7 +132,7 @@ const Home: NextPage<AnimeDataProps> = (props: AnimeDataProps) => {
       <Header />
       <main className={styles.main}>
         <AnimeCardWrapper>
-          <div className='grid grid-cols-4 gap-y-2 gap-x-4 sm:grid-cols-1 w-full h-full'>
+          <div className='grid grid-cols-4 gap-y-2 gap-x-4 sm:grid-cols-1 w-full sm:w-4/5 h-full'>
           {
             data?.map((anime: Anime, index: number) => {
               const src = anime.entry[0]?.images.jpg.image_url?.replace(IMAGE_DOMAIN, "")
