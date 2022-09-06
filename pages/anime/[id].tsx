@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import React from 'react'
+import Image from 'next/image'
 import { ChevronLeftIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
-import { AnimeDetailWrapper, LineItem } from './style'
+import styled from 'styled-components'
 import { GetServerSidePropsContext } from 'next'
 import { getAnimeById } from '../../libs/service'
 import { AnimeDetailData } from '../../libs/types/data-type'
 import { formatNumber } from '../../libs/util'
+import { IMAGE_DOMAIN } from '../../libs/const'
 
 interface AnimeDetailProps {
     data: AnimeDetailData
@@ -64,8 +66,8 @@ export default function AnimeDetail(props: AnimeDetailProps) {
                 </div>
 
                 <div className="content md:flex w-full">
-                    <div className="img md:w-1/3 sm:w-full md:mr-4">
-                        <img className="rounded-2xl shadow-md sm:w-full" src={data.images.jpg.image_url} alt="" />
+                    <div className="img md:w-1/3 sm:w-full md:mr-4 relative">
+                        <Image layout='fill' objectFit="cover" className="rounded-2xl shadow-md sm:w-full" src={data.images.jpg.image_url?.replace(IMAGE_DOMAIN, "")} alt="" />
                     </div>
                     <div className="md:w-2/3 sm:w-full flex flex-col justify-between sm:mt-2">
                         <div>
@@ -113,4 +115,21 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     return {
       props: {...data?.data},
     }
-  }
+}
+
+export const AnimeDetailWrapper = styled.div`
+    width: 80%;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    align-items: center;
+`
+
+export const LineItem = styled.div`
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    div {
+        margin: 0 4px;
+    }
+`

@@ -3,15 +3,17 @@ import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { useState } from 'react';
+import Image from 'next/image'
+import styled from 'styled-components'
 import ReactPaginate from 'react-paginate';
 import {Header, Footer} from '../libs/components'
 import { getRecommendedAnims } from '../libs/service';
 import { Anime, PageType, PaginationType } from '../libs/types/data-type';
 import styles from '../styles/Home.module.css'
-import { AnimeCard, AnimeCardWrapper, PaginationWrapper } from './style';
 import { UrlObject } from 'url';
 import Link from 'next/link';
 import ScrollToTop from 'react-scroll-to-top';
+import { IMAGE_DOMAIN } from '../libs/const';
 interface AnimeDataProps {
   data: Array<Anime>
   pagination: PaginationType 
@@ -36,31 +38,6 @@ const Home: NextPage<AnimeDataProps> = (props: AnimeDataProps) => {
     router.push(target)    
   }
   
-  const renderCard = () => {
-    let cards: any[] = []
-    let row: any[] = []
-    console.log('chekd data', data.length)
-    data?.forEach((anime: Anime, index: number) => {
-      row.push(
-        <Link key={`${anime.mal_id}-${index}`} href={`${PageType.Anime}/${anime.entry[0]?.mal_id}`}>
-          <div className="card sm:w-4/5 cursor-pointer">
-            <AnimeCard>
-              <img src={anime.entry[0]?.images.jpg.image_url} alt="avatar"/>
-            </AnimeCard>
-          </div>
-        </Link>
-      )
-      if ((index > 0 && (index + 1) % 4 == 0) || (index == data?.length - 1)) {
-        cards.push(
-        <div key={`row-${data?.length / 4}`} className="flex sm:flex-wrap sm:justify-center sm:w-4/5">
-          {row}
-        </div>);
-        row = []
-      }
-    })
-    return cards
-  }
-
   return (
     <div className="w-full">
       <ScrollToTop smooth/>
@@ -70,7 +47,21 @@ const Home: NextPage<AnimeDataProps> = (props: AnimeDataProps) => {
       <Header />
       <main className={styles.main}>
         <AnimeCardWrapper>
-          {renderCard()}
+          <div className='grid grid-cols-4 gap-y-2 gap-x-4 sm:grid-cols-1 w-full h-full'>
+          {
+            data?.map((anime: Anime, index: number) => {
+              const src = anime.entry[0]?.images.jpg.image_url?.replace(IMAGE_DOMAIN, "")
+              return (
+                  <Link key={`${anime.mal_id}-${index}`} href={`${PageType.Anime}/${anime.entry[0]?.mal_id}`}>
+                    <AnimeCard>
+                      <div className="card w-full cursor-pointer relative">
+                          <Image layout="responsive" objectFit='fill' width="100%" height="100%" src={src} alt="avatar"/>
+                      </div>
+                    </AnimeCard>
+                  </Link>
+              )})
+            }
+          </div>
         </AnimeCardWrapper>
         <PaginationWrapper>
           <ReactPaginate
@@ -112,5 +103,89 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     props: {...data?.data},
   }
 }
+
+
+export const PaginationWrapper = styled.div`
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+}
+  
+.pagination li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+.pagination li a {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    position: relative;
+    display: block;
+    color: #0d6efd;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.pagination li a:hover {
+    z-index: 2;
+    color: #0a58ca;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.pagination li:not(:first-child) a {
+    margin-left: -1px;
+}
+  
+.pagination li.active a {
+    z-index: 3;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.pagination li.disabled a {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+`
+
+export const AnimeCardWrapper = styled.div`
+    display: flex;
+    flex: 1;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+`
+
+export const AnimeCard = styled.div`
+    width: 100%;
+    height: 100%;
+    box-shadow: 2px 2px 2px 3px lightgray;
+    border-radius: 16px;
+    transition: box-shadow 0.3s ease-in-out;        
+
+    &:hover {
+        box-shadow: 1px 1px 1px 1px lightgray;
+    }
+
+    img {
+        max-height: 450px;
+        border-radius: 16px;
+        margin: auto;        
+    }
+
+    @media(max-width: 640px) {
+        width: 80%;
+        margin:
+    }
+`
 
 export default Home

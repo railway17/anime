@@ -7,6 +7,7 @@ import { SearchResult } from '../header/style'
 import { getSearchResult } from '../../service'
 import { AnimeSearchResult, PaginationType } from '../../types/data-type'
 import { SearchListItem } from '../search/search-list-item'
+import { Loader } from '../loader'
 
 interface ModalProps {
   open: boolean
@@ -23,6 +24,7 @@ export default function Modal(props: ModalProps) {
   const [searchResult, setSearchResult] = useState<AnimeSearchResultProps|null>(null)
   const cancelButtonRef = useRef(null)
   const [searchStr, setSearchStr] = useState('')
+  const [loading, setLoading] = useState(false)
   
   useEffect(() => {
     setOpen(props.open)
@@ -37,8 +39,10 @@ export default function Modal(props: ModalProps) {
       return
     }
     setSearchStr(search)
+    setLoading(true)
     const result: any = await getSearchResult(search)
     setSearchResult({...result?.data})    
+    setLoading(false)
   }
 
   return (
@@ -81,7 +85,8 @@ export default function Modal(props: ModalProps) {
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                         <SearchBar onSearch={onSearch}/>
                       </Dialog.Title>
-                      <div className="mt-2">
+                      <div className="mt-2 relative">
+                        <Loader loading={loading} customStyles={{paddingTop: '25%', paddingLeft: 'calc(50% - 28px)'}}/>
                         <SearchResult>
                           {searchResult?.data ? searchResult.data.map((anime)=> {
                             return (
