@@ -11,7 +11,6 @@ export const SearchBar: React.FC<React.HTMLAttributes<HTMLDivElement> & SearchPr
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            console.log(searchStr)
             props.onSearch(searchStr)
         }, 500)
 

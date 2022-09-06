@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import { PropsWithChildren, useEffect } from 'react'
+import { PropsWithChildren } from 'react'
 import { AnimePage } from '../libs/types/AnimePage'
 import React from 'react'
 import { Router } from 'next/router'
@@ -28,10 +28,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       Router.events.off("routeChangeError", end);
     };
   }, []);
-
-  useEffect(()=> {
-    console.log('loading changes', loading)
-  }, [loading])
       
   return (
     <Layout>

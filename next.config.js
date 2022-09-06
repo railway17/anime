@@ -6,9 +6,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,  
-  compiler: {
-    styledComponents: true,
-  },
   images: {
     loader: 'imgix',
     path: 'https://cdn.myanimelist.net/',

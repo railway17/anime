@@ -8,6 +8,7 @@ import { getAnimeById } from '../../libs/service'
 import { AnimeDetailData } from '../../libs/types/data-type'
 import { formatNumber } from '../../libs/util'
 import { IMAGE_DOMAIN } from '../../libs/const'
+import Head from 'next/head'
 
 export const AnimeDetailWrapper = styled.div`
     width: 80%;
@@ -72,6 +73,9 @@ export default function AnimeDetail(props: AnimeDetailProps) {
     return (
         <AnimeDetailWrapper>
             <div className="h-full">
+            <Head>
+                <title>Anime</title>
+            </Head>
                 <div className="navigator flex m-8 ml-0">
                     <Link href={"/"}>
                         <ChevronLeftIcon 

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../../../styles/Home.module.css'
 
-export function Footer() {
+export const Footer = () => {
     return (
         <footer className={styles.footer}>
             <div className="text-left w-full">

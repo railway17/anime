@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { useState } from 'react';
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import styled from 'styled-components'
 import ReactPaginate from 'react-paginate';
-import {Header, Footer} from '../libs/components'
 import { getRecommendedAnims } from '../libs/service';
 import { Anime, PageType, PaginationType } from '../libs/types/data-type';
 import styles from '../styles/Home.module.css'
@@ -105,6 +105,17 @@ interface AnimeDataProps {
   setLoading: (loading: boolean) => void
 }
 
+const DynamicHeader = dynamic<any>(
+  () => import('../libs/components/header').then((comp) => comp.Header),
+  { ssr: false },
+)
+
+const DynamicFooter = dynamic<any>(
+  () => import('../libs/components/footer').then((comp) => comp.Footer),
+  { ssr: false },
+)
+
+
 const Home: NextPage<AnimeDataProps> = (props: AnimeDataProps) => {  
   
   const router = useRouter()
@@ -129,7 +140,7 @@ const Home: NextPage<AnimeDataProps> = (props: AnimeDataProps) => {
       <Head>
         <title>Anime</title>
       </Head>
-      <Header />
+      <DynamicHeader />
       <main className={styles.main}>
         <AnimeCardWrapper>
           <div className='grid grid-cols-4 gap-y-2 gap-x-4 sm:grid-cols-1 w-full sm:w-4/5 h-full'>
@@ -175,7 +186,7 @@ const Home: NextPage<AnimeDataProps> = (props: AnimeDataProps) => {
           />
         </PaginationWrapper>
       </main>
-      <Footer />
+      <DynamicFooter />
     </div>
   )
 }

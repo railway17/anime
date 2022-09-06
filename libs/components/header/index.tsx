@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { PageType } from '../../types/data-type'
 import Modal from '../modal'
 
-export function Header() {
+export const Header = () => {
 
     const [isOpen, setIsOpen] = useState(false)
     
